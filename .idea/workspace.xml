@@ -223,6 +223,10 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+      <path value="$PROJECT_DIR$/bookTravelerBot" />
+    </ignored-roots>
     <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
