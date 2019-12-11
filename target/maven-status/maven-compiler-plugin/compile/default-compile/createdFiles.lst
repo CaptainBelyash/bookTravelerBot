@@ -1,0 +1,13 @@
+URLReader.class
+Quiz.class
+State$state.class
+BotLogic.class
+BotCommands.class
+Bot.class
+org\o7planning\googledrive\quickstart\GoogleDrive.class
+Reader.class
+State.class
+URLReader$InfoAbout.class
+BotPrimitive$MyFunc.class
+BotPrimitive.class
+UserData.class

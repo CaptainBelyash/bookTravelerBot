@@ -1,0 +1,9 @@
+Привет-привет, это BookTravel!
+Смотри, что я умею:
+1. help;
+2. authors;
+3. printDate;
+4. library;
+5. echo;
+
+Выбери что-нибудь....
