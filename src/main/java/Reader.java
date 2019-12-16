@@ -8,7 +8,7 @@ class Reader {
     String readFile(String nameFile) {
         try {
             File file = new java.io.File(nameFile);
-            FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8);
+            FileReader fileReader = new FileReader(file);
             BufferedReader reader = new BufferedReader(fileReader);
             String line = reader.readLine();
             StringBuilder text = new StringBuilder();
@@ -35,7 +35,7 @@ class Reader {
     String readFileLine(String nameFile, int n) {
         try {
             File file = new java.io.File(nameFile);
-            FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8);
+            FileReader fileReader = new FileReader(file);
             BufferedReader reader = new BufferedReader(fileReader);
             int count = 1;
             String line = reader.readLine();
