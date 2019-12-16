@@ -12,7 +12,7 @@ class URLReaderTest {
     String GetTextFromFile(String namefile) {
         try {
             File file = new java.io.File(namefile);
-            FileReader fileReader = new FileReader(file, StandardCharsets.UTF_8);
+            FileReader fileReader = new FileReader(file);
             BufferedReader reader = new BufferedReader(fileReader);
             String line = reader.readLine();
             StringBuilder text = new StringBuilder();
