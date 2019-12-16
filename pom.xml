@@ -13,8 +13,8 @@
                 <version>3.7.0</version>
                 <configuration>
                     <release>10</release>
-                    <source>13</source>
-                    <target>13</target>
+                    <source>1.13</source>
+                    <target>1.13</target>
                 </configuration>
             </plugin>
 
@@ -26,7 +26,7 @@
                     <assembleDirectory>target</assembleDirectory>
                     <programs>
                         <program>
-                            <mainClass>com.company.Main</mainClass>
+                            <mainClass>Main</mainClass>
                             <name>Bot</name>
                         </program>
                     </programs>
