@@ -27,7 +27,7 @@
                     <programs>
                         <program>
                             <mainClass>com.company.Main</mainClass>
-                            <name>OOP-bot</name>
+                            <name>Bot</name>
                         </program>
                     </programs>
                 </configuration>
