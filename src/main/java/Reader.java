@@ -20,10 +20,10 @@ class Reader {
                 text.append(line).append("\n");
                 line = reader.readLine();
             }
-            return "a" + text.toString();
+            return text.toString();
         } catch (IOException e) {
             e.printStackTrace();
-            return "aaaa";
+            return e.toString();
         }
     }
 
