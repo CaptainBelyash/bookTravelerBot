@@ -20,7 +20,7 @@ class Reader {
                 text.append(line).append("\n");
                 line = reader.readLine();
             }
-            return text.toString();
+            return "a" + text.toString();
         } catch (IOException e) {
             e.printStackTrace();
             return "aaaa";
