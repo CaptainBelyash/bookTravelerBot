@@ -3,6 +3,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
 
@@ -13,6 +14,11 @@ public class BotPrimitive extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        try {
+            sendMsg(update.getMessage().getChatId().toString(), update.getMessage().getText());
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -37,5 +43,14 @@ public class BotPrimitive extends TelegramLongPollingBot {
         sendMessage.setChatId(message.getChatId().toString());
         sendMessage.setText(text);
         return sendMessage;
+    }
+
+    public synchronized void sendMsg(String chatId, String output) throws TelegramApiException {
+        SendMessage sendMess = new SendMessage();
+        sendMess.enableMarkdown(true);
+        sendMess.setChatId(chatId);
+        sendMess.setText(output);
+
+        execute(sendMess);
     }
 }
