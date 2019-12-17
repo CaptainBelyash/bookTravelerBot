@@ -169,7 +169,7 @@ public class Bot extends BotPrimitive {
     } // сделать функции перехода. не сейчас
 
     private void authors(Message message) {
-        printFile("src/main/resources/.txt", message);
+        printFile("src/main/resources/authors.txt", message);
     }
 
     private void echo(Message message) {
@@ -187,7 +187,7 @@ public class Bot extends BotPrimitive {
         sendMsg(message, botCommands.library(message, botLogic, this));
         botLogic.getUserData(message.getChatId().toString(), this).setCurrentCommands(createLibraryCommands());
         sendMsg(message, "Вы в библиотеке.");
-        printFile("src/main/resources/.txt", message);
+        printFile("src/main/resources/library.txt", message);
     }
 
     private void checkAnswer(Message message, String answer) throws IOException {
