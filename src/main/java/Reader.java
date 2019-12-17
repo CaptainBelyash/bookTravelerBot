@@ -33,7 +33,7 @@ class Reader {
     }
 
     int getCountLinesInFile() {
-        return countLines(readFile("src\\main\\resources\\library.txt"));
+        return countLines(readFile("src/main/resources/library.txt"));
     }
 
     String readFileLine(String nameFile, int n) {
@@ -57,7 +57,7 @@ class Reader {
 
     String getCurrentBookName(int currentBook) {
         StringBuilder result = new StringBuilder();
-        var name = readFileLine("src\\main\\resources\\library.txt", currentBook).toCharArray();
+        var name = readFileLine("src/main/resources/library.txt", currentBook).toCharArray();
         var fl = false;
         for (char c : name) {
             if (fl)
