@@ -248,10 +248,11 @@ public class Bot extends BotPrimitive {
 
     private void readNext(Message message) {
         var userData = botLogic.getUserData(message.getChatId().toString(), this);
-        var pos = userData.getCurrentPosition();
+        var paragraph = userData.getLibraryUser().get(userData.getCurrentBook());
+        var pos = paragraph == null ? 0 : paragraph;
         botLogic.getUserData(message.getChatId().toString(), this).setCurrentCommands(createReadCommand());
         sendMsg(message, botCommands.nextRead(userData, pos));
-        userData.setCurrentPosition(pos + 1);
+        userData.addBook(userData.getCurrentBook(), pos++);
     } //commandsWithSendMessage
 
     private void returnBook(Message message) {
