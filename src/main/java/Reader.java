@@ -23,7 +23,7 @@ class Reader {
             return text.toString();
         } catch (IOException e) {
             e.printStackTrace();
-            return "";
+            return "aaaa";
         }
     }
 
@@ -51,7 +51,7 @@ class Reader {
             return line;
         } catch (IOException e) {
             e.printStackTrace();
-            return "";
+            return "aaaa";
         }
     }
 
