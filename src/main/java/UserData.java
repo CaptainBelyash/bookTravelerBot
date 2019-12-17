@@ -10,6 +10,7 @@ class UserData {
     private ArrayList<String> currentParagraphsList = new ArrayList<>();
     private int currentPosition = 0;
     private Quiz currentQuiz;
+    private HashMap<Integer, Integer> libraryUser;
 
     State getState() {
         return state;
@@ -41,6 +42,10 @@ class UserData {
 
     Quiz getCurrentQuiz() {
         return currentQuiz;
+    }
+
+    public HashMap<Integer, Integer> getLibraryUser() {
+        return libraryUser;
     } //getters
 
     void setCurrentCommands(HashMap<String, BotPrimitive.MyFunc> currentCommands) {
@@ -68,5 +73,13 @@ class UserData {
 
     void setCurrentQuiz(Quiz quiz) {
         this.currentQuiz = quiz;
-    } //setters
+    }
+
+    public void setLibraryUser(HashMap<Integer, Integer> libraryUser) {
+        this.libraryUser = libraryUser;
+    }//setters
+
+    public void addBook(int book, int paragraph){
+        libraryUser.put(book, paragraph);
+    }
 }
