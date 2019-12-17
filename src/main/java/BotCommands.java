@@ -6,19 +6,28 @@ import java.util.Date;
 import java.util.Locale;
 
 class BotCommands {
+    private AbsPath absPath = new AbsPath();
+    private String helpMainAbsPath = absPath.getAbsPath("src\\main\\resources\\helpMain.txt");
+    private String helpLibAbsPath = absPath.getAbsPath("src\\main\\resources\\helpLibrary.txt");
+    private String helpBookAbsPath = absPath.getAbsPath("src\\main\\resources\\helpBook.txt");
+    private String helpQuizAbsPath = absPath.getAbsPath("src\\main\\resources\\helpQuiz.txt");
+    private String helpReadAbsPath = absPath.getAbsPath("src\\main\\resources\\helpRead.txt");
+    private String wikiAuthorsAbsPath = absPath.getAbsPath("src\\main\\resources\\library-authors-wiki-link.txt");
+    private String wikiAbsPath = absPath.getAbsPath("src\\main\\resources\\library-wiki-link.txt");
+
     String help(Message message, BotLogic botLogic, Bot bot) {
         String chatId = message.getChatId().toString();
         var botState = botLogic.getUserState(chatId, bot);
         if (botState.getCurrentState() == State.state.Main)
-            return botLogic.getReader().readFile("src\\main\\resources\\helpMain.txt");
+            return botLogic.getReader().readFile(helpMainAbsPath);
         else if (botState.getCurrentState() == State.state.Library)
-            return botLogic.getReader().readFile("src\\main\\resources\\helpLibrary.txt");
+            return botLogic.getReader().readFile(helpLibAbsPath);
         else if (botState.getCurrentState() == State.state.Book)
-            return botLogic.getReader().readFile("src\\main\\resources\\helpBook.txt");
+            return botLogic.getReader().readFile(helpBookAbsPath);
         else if (botState.getCurrentState() == State.state.Quiz)
-            return botLogic.getReader().readFile("src\\main\\resources\\helpQuiz.txt");
+            return botLogic.getReader().readFile(helpQuizAbsPath);
         else if (botState.getCurrentState() == State.state.Read)
-            return botLogic.getReader().readFile("src\\main\\resources\\helpRead.txt");
+            return botLogic.getReader().readFile(helpReadAbsPath);
         return "";
     } // сделать функции перехода. не сейчас
 
@@ -41,13 +50,13 @@ class BotCommands {
 
     String getInfoAbAuthor(String chatId, BotLogic botLogic, Bot bot) throws Exception {
         var book = botLogic.getUserData(chatId, bot).getCurrentBook();
-        String site = botLogic.getReader().readFileLine("src\\main\\resources\\library-authors-wiki-link.txt", book);
+        String site = botLogic.getReader().readFileLine(wikiAuthorsAbsPath, book);
         return URLReader.GetInfo(site.substring(2), URLReader.InfoAbout.Author);
     }
 
     String[] getThumbnailSketch(String chatId, BotLogic botLogic, Bot bot) throws Exception {
         var book = botLogic.getUserData(chatId, bot).getCurrentBook();
-        String site = botLogic.getReader().readFileLine("src\\main\\resources\\library-wiki-link.txt", book);
+        String site = botLogic.getReader().readFileLine(wikiAbsPath, book);
         String info = URLReader.GetInfo(site.substring(2), URLReader.InfoAbout.ThumbnailSketchBook);
         return info.split("\r\n|\r|\n");
     }
