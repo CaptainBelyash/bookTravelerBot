@@ -10,15 +10,15 @@ class BotCommands {
         String chatId = message.getChatId().toString();
         var botState = botLogic.getUserState(chatId, bot);
         if (botState.getCurrentState() == State.state.Main)
-            return botLogic.getReader().readFile("src\\main\\resources\\helpMain.txt");
+            return botLogic.getReader().readFile("src/main/resources/helpMain.txt");
         else if (botState.getCurrentState() == State.state.Library)
-            return botLogic.getReader().readFile("src\\main\\resources\\helpLibrary.txt");
+            return botLogic.getReader().readFile("src/main/resources/helpLibrary.txt");
         else if (botState.getCurrentState() == State.state.Book)
-            return botLogic.getReader().readFile("src\\main\\resources\\helpBook.txt");
+            return botLogic.getReader().readFile("src/main/resources/helpBook.txt");
         else if (botState.getCurrentState() == State.state.Quiz)
-            return botLogic.getReader().readFile("src\\main\\resources\\helpQuiz.txt");
+            return botLogic.getReader().readFile("src/main/resources/helpQuiz.txt");
         else if (botState.getCurrentState() == State.state.Read)
-            return botLogic.getReader().readFile("src\\main\\resources\\helpRead.txt");
+            return botLogic.getReader().readFile("src/main/resources/helpRead.txt");
         return "";
     } // сделать функции перехода. не сейчас
 
@@ -41,13 +41,13 @@ class BotCommands {
 
     String getInfoAbAuthor(String chatId, BotLogic botLogic, Bot bot) throws Exception {
         var book = botLogic.getUserData(chatId, bot).getCurrentBook();
-        String site = botLogic.getReader().readFileLine("src\\main\\resources\\library-authors-wiki-link.txt", book);
+        String site = botLogic.getReader().readFileLine("src/main/resources/library-authors-wiki-link.txt", book);
         return URLReader.GetInfo(site.substring(2), URLReader.InfoAbout.Author);
     }
 
     String[] getThumbnailSketch(String chatId, BotLogic botLogic, Bot bot) throws Exception {
         var book = botLogic.getUserData(chatId, bot).getCurrentBook();
-        String site = botLogic.getReader().readFileLine("src\\main\\resources\\library-wiki-link.txt", book);
+        String site = botLogic.getReader().readFileLine("src/main/resources/library-wiki-link.txt", book);
         String info = URLReader.GetInfo(site.substring(2), URLReader.InfoAbout.ThumbnailSketchBook);
         return info.split("\r\n|\r|\n");
     }

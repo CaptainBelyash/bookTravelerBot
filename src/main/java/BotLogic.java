@@ -49,7 +49,7 @@ class BotLogic {
     void createQuiz(String chatId) throws IOException {
         var userData = users.get(chatId);
         var name = reader.getCurrentBookName(userData.getCurrentBook());
-        var answer = reader.readFile("src\\main\\resources\\quizs\\Answers\\" + name + ".Answers.txt").split(";\n");
+        var answer = reader.readFile("src/main/resources/" + name + ".Answers.txt").split(";\n");
         //var arAnswers = googleDrive.getTextByGoogleDisk(googleDrive.getDrive(), name + ".Answers").split("\n");
         var arQuestions = googleDrive.getTextByGoogleDisk(googleDrive.getDrive(), name + ".Questions").split(";");
         userData.setCurrentQuiz(new Quiz(arQuestions, answer));
