@@ -1,3 +1,5 @@
+import org.checkerframework.checker.units.qual.A;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -5,9 +7,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 class Reader {
+    private AbsPath absPath = new AbsPath();
+
     String readFile(String nameFile) {
         try {
-            File file = new java.io.File(nameFile);
+            File file = new java.io.File(absPath.getAbsPath(nameFile));
             FileReader fileReader = new FileReader(file);
             BufferedReader reader = new BufferedReader(fileReader);
             String line = reader.readLine();
@@ -34,7 +38,7 @@ class Reader {
 
     String readFileLine(String nameFile, int n) {
         try {
-            File file = new java.io.File(nameFile);
+            File file = new java.io.File(absPath.getAbsPath(nameFile));
             FileReader fileReader = new FileReader(file);
             BufferedReader reader = new BufferedReader(fileReader);
             int count = 1;
