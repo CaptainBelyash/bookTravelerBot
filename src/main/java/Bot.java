@@ -17,10 +17,6 @@ public class Bot extends BotPrimitive {
     private BotLogic botLogic = new BotLogic();
     private BotCommands botCommands = new BotCommands();
 
-    private AbsPath absPath = new AbsPath();
-    private String authorsAbsPath = absPath.getAbsPath("src\\main\\resources\\authors.txt");
-    private String libraryAbsPath = absPath.getAbsPath("src\\main\\resources\\library.txt");
-
     public static void main(String[] args) {
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotApi = new TelegramBotsApi();
@@ -173,7 +169,7 @@ public class Bot extends BotPrimitive {
     } // сделать функции перехода. не сейчас
 
     private void authors(Message message) {
-        printFile(authorsAbsPath, message);
+        printFile("src\\main\\resources\\authors.txt", message);
     }
 
     private void echo(Message message) {
@@ -191,7 +187,7 @@ public class Bot extends BotPrimitive {
         sendMsg(message, botCommands.library(message, botLogic, this));
         botLogic.getUserData(message.getChatId().toString(), this).setCurrentCommands(createLibraryCommands());
         sendMsg(message, "Вы в библиотеке.");
-        printFile(libraryAbsPath, message);
+        printFile("src\\main\\resources\\library.txt", message);
     }
 
     private void checkAnswer(Message message, String answer) throws IOException {

@@ -22,8 +22,6 @@ class Reader {
             return "";
         }
     }
-    private AbsPath absPath = new AbsPath();
-    private String libAbsPath = absPath.getAbsPath("src\\main\\resources\\library.txt");
 
     private int countLines(String str) {
         String[] lines = str.split("\r\n|\r|\n");
@@ -31,7 +29,7 @@ class Reader {
     }
 
     int getCountLinesInFile() {
-        return countLines(readFile(libAbsPath));
+        return countLines(readFile("src\\main\\resources\\library.txt"));
     }
 
     String readFileLine(String nameFile, int n) {
@@ -55,7 +53,7 @@ class Reader {
 
     String getCurrentBookName(int currentBook) {
         StringBuilder result = new StringBuilder();
-        var name = readFileLine(libAbsPath, currentBook).toCharArray();
+        var name = readFileLine("src\\main\\resources\\library.txt", currentBook).toCharArray();
         var fl = false;
         for (char c : name) {
             if (fl)
