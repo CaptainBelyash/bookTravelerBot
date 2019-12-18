@@ -89,7 +89,7 @@ class BotCommands {
             }*/
         }
         userData.setFlChoose(true);
-        return "";
+        return "a";
     }
 
     String nextRead(UserData userData, int pos){
