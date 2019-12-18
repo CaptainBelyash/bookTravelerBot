@@ -82,10 +82,11 @@ class BotCommands {
                 userData.getState().setCurrentState(State.state.Library);
                 return "Неправильно выбран номер книги";
             } else {
-                userData.setCurrentBook(Integer.parseInt(message.getText()));
+                return "Приятного чтения";
+                /*userData.setCurrentBook(Integer.parseInt(message.getText()));
                 botLogic.setCurrentParagraphsList(userData);
                 return "Приятного чтения";
-            }
+            */}
         }
         userData.setFlChoose(true);
         return "";
