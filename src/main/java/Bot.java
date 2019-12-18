@@ -119,6 +119,8 @@ public class Bot extends BotPrimitive {
         commands.put("выбрать книгу", (message -> {
             sendMsg(message, "Введите номер книги");
             chooseBook(message);
+
+            sendMsg(message, "Введите номер книги");
         }));
         return commands;
     }
