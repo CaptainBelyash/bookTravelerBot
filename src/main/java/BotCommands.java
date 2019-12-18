@@ -70,8 +70,7 @@ class BotCommands {
     String chooseBook(Message message, BotLogic botLogic, UserData userData) {
         var countBookInLibrary = botLogic.getReader().getCountLinesInFile();
         if (userData.getFlChoose()) {
-            return "Неправильно выбран номер книгиЭ";
-            /*userData.getState().setCurrentState(State.state.Book);
+            userData.getState().setCurrentState(State.state.Book);
             var number = 0;
             try {
                 number = Integer.parseInt(message.getText());
@@ -86,10 +85,10 @@ class BotCommands {
                 userData.setCurrentBook(Integer.parseInt(message.getText()));
                 botLogic.setCurrentParagraphsList(userData);
                 return "Приятного чтения";
-            }*/
+            }
         }
         userData.setFlChoose(true);
-        return "a";
+        return "";
     }
 
     String nextRead(UserData userData, int pos){
