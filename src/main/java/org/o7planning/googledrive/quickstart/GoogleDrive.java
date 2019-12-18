@@ -99,7 +99,7 @@ public class GoogleDrive {
         var fileId = getFileId(fileName); //
         service.files().export(fileId, "text/plain")
                 .executeMediaAndDownloadTo(outputStream);
-        return "a"+outputStream.toString();
+        return outputStream.toString();
     }
 
     public ArrayList<String> getParagraphsList(String text) {

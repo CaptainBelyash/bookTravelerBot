@@ -93,6 +93,6 @@ class BotCommands {
 
     String nextRead(UserData userData, int pos){
         userData.getState().setCurrentState(State.state.Read);
-        return userData.getCurrentParagraphsList().get(pos);
+        return "a" + userData.getCurrentParagraphsList().get(pos);
     }
 }
