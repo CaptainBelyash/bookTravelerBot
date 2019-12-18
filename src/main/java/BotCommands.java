@@ -88,11 +88,11 @@ class BotCommands {
             }
         }
         userData.setFlChoose(true);
-        return "";
+        return "ф";
     }
 
     String nextRead(UserData userData, int pos){
         userData.getState().setCurrentState(State.state.Read);
-        return "a" + userData.getCurrentParagraphsList().get(pos);
+        return userData.getCurrentParagraphsList().get(pos);
     }
 }
