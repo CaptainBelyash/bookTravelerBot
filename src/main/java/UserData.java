@@ -5,12 +5,13 @@ class UserData {
     private State state = new State();
     private HashMap<String, BotPrimitive.MyFunc> currentCommands;
     private Boolean flChoose = false;
+    private Boolean flNote = false;
     private Boolean flEcho = false;
     private int currentBook = 0;
     private ArrayList<String> currentParagraphsList = new ArrayList<>();
-    private int currentPosition = 0;
     private Quiz currentQuiz;
-    private HashMap<Integer, Integer> libraryUser;
+    private HashMap<Integer, HashMap<Integer, ArrayList<String>>> bookmarks = new HashMap<>();
+    private HashMap<Integer, Integer> library = new HashMap<>();
 
     State getState() {
         return state;
@@ -22,6 +23,10 @@ class UserData {
 
     Boolean getFlChoose() {
         return flChoose;
+    }
+
+    Boolean getFlNote() {
+        return flNote;
     }
 
     Boolean getFlEcho() {
@@ -37,16 +42,21 @@ class UserData {
     }
 
     int getCurrentPosition() {
-        return currentPosition;
+        if(library.containsKey(currentBook))
+            return library.get(currentBook);
+        library.put(currentBook, 0);
+        return 0;
     }
 
     Quiz getCurrentQuiz() {
         return currentQuiz;
     }
 
-    public HashMap<Integer, Integer> getLibraryUser() {
-        return libraryUser;
-    } //getters
+    HashMap<Integer, HashMap<Integer, ArrayList<String>>> getBookmarks() {
+        return bookmarks;
+    }
+
+    //getters
 
     void setCurrentCommands(HashMap<String, BotPrimitive.MyFunc> currentCommands) {
         this.currentCommands = currentCommands;
@@ -55,12 +65,18 @@ class UserData {
         this.flChoose = flChoose;
     }
 
+    void setFlNote(Boolean flNote) {
+        this.flNote = flNote;
+    }
+
     void setFlEcho(Boolean flEcho) {
         this.flEcho = flEcho;
     }
 
     void setCurrentBook(int currentBook) {
         this.currentBook = currentBook;
+        if (!library.containsKey(currentBook))
+            library.put(currentBook, 0);
     }
 
     void setCurrentParagraphsList(ArrayList<String> currentParagraphsList) {
@@ -68,18 +84,32 @@ class UserData {
     }
 
     void setCurrentPosition(int currentPosition) {
-        this.currentPosition = currentPosition;
+        library.put(currentBook, currentPosition);
     }
 
     void setCurrentQuiz(Quiz quiz) {
         this.currentQuiz = quiz;
-    }
-
-    public void setLibraryUser(HashMap<Integer, Integer> libraryUser) {
-        this.libraryUser = libraryUser;
     }//setters
 
-    public void addBook(int book, int paragraph){
-        libraryUser.put(book, paragraph);
+    void addBookmark(String note, Integer par){
+        if (!bookmarks.containsKey(currentBook)){
+            var newArMarks = new ArrayList<String>();
+            newArMarks.add(note);
+            HashMap<Integer, ArrayList<String>> newBookMarks = new HashMap<>();
+            newBookMarks.put(par, newArMarks);
+            bookmarks.put(currentBook, newBookMarks);
+        }
+        else if (bookmarks.get(currentBook).containsKey(par)){
+            bookmarks.get(currentBook).get(par).add(note);
+        }
+        else {
+            var newArMarks = new ArrayList<String>();
+            newArMarks.add(note);
+            bookmarks.get(currentBook).put(par, newArMarks);
+        }
+    }
+
+    void addBook(Integer book, Integer par){
+        library.put(book, par);
     }
 }
