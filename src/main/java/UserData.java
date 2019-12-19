@@ -13,6 +13,8 @@ class UserData {
     private Quiz currentQuiz;
     private HashMap<Integer, HashMap<Integer, ArrayList<String>>> bookmarks = new HashMap<>();
     private HashMap<Integer, Integer> library = new HashMap<>();
+    private ArrayList<String> searchResult = new ArrayList<>();
+    private int countResult = 1;
 
     State getState() {
         return state;
@@ -61,6 +63,14 @@ class UserData {
         return bookmarks;
     }
 
+    public ArrayList<String> getSearchResult() {
+        return searchResult;
+    }
+
+    public int getCountResult() {
+        return countResult;
+    }
+
     //getters
 
     void setCurrentCommands(HashMap<String, BotPrimitive.MyFunc> currentCommands) {
@@ -98,7 +108,13 @@ class UserData {
 
     void setCurrentQuiz(Quiz quiz) {
         this.currentQuiz = quiz;
-    }//setters
+    }
+
+    public void setSearchResult(ArrayList<String> searchResult) {
+        this.searchResult = searchResult;
+    }
+
+    //setters
 
     void addBookmark(String note, Integer par){
         if (!bookmarks.containsKey(currentBook)){
@@ -120,5 +136,13 @@ class UserData {
 
     void addBook(Integer book, Integer par){
         library.put(book, par);
+    }
+
+    void addCountResult(){
+        countResult++;
+    }
+
+    void resetStartCountResult(){
+        countResult = 1;
     }
 }
