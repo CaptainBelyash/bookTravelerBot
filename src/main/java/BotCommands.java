@@ -1,8 +1,6 @@
-import org.o7planning.googledrive.quickstart.GoogleDrive;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,17 +8,6 @@ import java.util.HashMap;
 import java.util.Locale;
 
 class BotCommands {
-
-    private GoogleDrive googleDrive;
-
-    {
-        try {
-            googleDrive = new GoogleDrive();
-        } catch (IOException | GeneralSecurityException e) {
-            e.printStackTrace();
-        }
-    }
-
     String help(Message message, BotLogic botLogic, Bot bot) {
         String chatId = message.getChatId().toString();
         var botState = botLogic.getUserState(chatId, bot);
@@ -147,9 +134,9 @@ class BotCommands {
             bookMark = userData.getBookmarks().get(userData.getCurrentBook());
             for (int par = 0; par < countP; par++){
                 if (bookMark.containsKey(par)){
-                    text.append("(" + par + ") : ");
+                    text.append("(").append(par).append(") : ");
                     for (String note:bookMark.get(par)) {
-                        text.append(note + "\n");
+                        text.append(note).append("\n");
                     }
                 }
             }
@@ -159,18 +146,15 @@ class BotCommands {
             return "Вы еще не создали ни одной закладки";
     }
 
-    public ArrayList<String> search(String target, UserData userData){
-        if (userData.getFlSearch()){
-            var paragraphs = userData.getCurrentParagraphsList();
-            var answer = new ArrayList<String>();
-            for (var paragraph:
-                    paragraphs) {
-                if (paragraph.contains(target))
-                    answer.add(paragraph);
-            }
-            return answer;
+    ArrayList<String> search(String target, UserData userData){
+        var paragraphs = userData.getCurrentParagraphsList();
+        var answer = new ArrayList<String>();
+        for (var paragraph:
+                paragraphs) {
+            if (paragraph.contains(target))
+                answer.add(paragraph);
         }
         userData.setFlSearch(true);
-        return new ArrayList<>();
+        return answer;
     }
 }
