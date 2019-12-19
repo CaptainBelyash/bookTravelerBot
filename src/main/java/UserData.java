@@ -6,6 +6,7 @@ class UserData {
     private HashMap<String, BotPrimitive.MyFunc> currentCommands;
     private Boolean flChoose = false;
     private Boolean flNote = false;
+    private Boolean flSearch = false;
     private Boolean flEcho = false;
     private int currentBook = 0;
     private ArrayList<String> currentParagraphsList = new ArrayList<>();
@@ -27,6 +28,10 @@ class UserData {
 
     Boolean getFlNote() {
         return flNote;
+    }
+
+    Boolean getFlSearch() {
+        return flSearch;
     }
 
     Boolean getFlEcho() {
@@ -85,6 +90,10 @@ class UserData {
 
     void setCurrentPosition(int currentPosition) {
         library.put(currentBook, currentPosition);
+    }
+
+    void setFlSearch(Boolean flSearch) {
+        this.flSearch = flSearch;
     }
 
     void setCurrentQuiz(Quiz quiz) {
