@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 class UserData {
     private State state = new State();
-    private HashMap<String, BotPrimitive.MyFunc> currentCommands;
+    private LinkedHashMap<String, BotPrimitive.MyFunc> currentCommands;
     private Boolean flChoose = false;
     private Boolean flNote = false;
     private Boolean flSearch = false;
@@ -63,17 +64,17 @@ class UserData {
         return bookmarks;
     }
 
-    public ArrayList<String> getSearchResult() {
+    ArrayList<String> getSearchResult() {
         return searchResult;
     }
 
-    public int getCountResult() {
+    int getCountResult() {
         return countResult;
     }
 
     //getters
 
-    void setCurrentCommands(HashMap<String, BotPrimitive.MyFunc> currentCommands) {
+    void setCurrentCommands(LinkedHashMap<String, BotPrimitive.MyFunc> currentCommands) {
         this.currentCommands = currentCommands;
     }
     void setFlChoose(Boolean flChoose) {
@@ -110,7 +111,7 @@ class UserData {
         this.currentQuiz = quiz;
     }
 
-    public void setSearchResult(ArrayList<String> searchResult) {
+    void setSearchResult(ArrayList<String> searchResult) {
         this.searchResult = searchResult;
     }
 
@@ -132,10 +133,6 @@ class UserData {
             newArMarks.add(note);
             bookmarks.get(currentBook).put(par, newArMarks);
         }
-    }
-
-    void addBook(Integer book, Integer par){
-        library.put(book, par);
     }
 
     void addCountResult(){
