@@ -35,6 +35,7 @@ public class Bot extends BotPrimitive {
                 processingMessage(message);
             } catch (IOException e) {
                 e.printStackTrace();
+                System.out.println("Ошибка в processingMessage");
             }
         }
     }
@@ -52,6 +53,9 @@ public class Bot extends BotPrimitive {
         } else if (userData.getFlChoose()) {
             chooseBook(message);
             userData.setFlChoose(false);
+        } else if(userData.getFlNote()) {
+            addNote(message);
+            userData.setFlNote(false);
         } else if (currentCommands.containsKey(message.getText())) {
             MyFunc func = currentCommands.get(message.getText());
             func.func(message);
@@ -120,6 +124,7 @@ public class Bot extends BotPrimitive {
             sendMsg(message, "Введите номер книги");
             chooseBook(message);
         }));
+        commands.put("поиск", (this::search));
         return commands;
     }
 
@@ -161,8 +166,10 @@ public class Bot extends BotPrimitive {
         commands.put("?", (this::help));
         commands.put("книга", (this::returnBook));
         commands.put("ᐅ", (this::readNext));
+        commands.put("добавить закладку", (this::note));
+        commands.put("посмотреть текущие закладки", (this::getMarks));
         return commands;
-    } //createCommands
+    }
     ///////////////
     private void help(Message message) {
         sendMsg(message, botCommands.help(message, botLogic, this));
@@ -244,21 +251,46 @@ public class Bot extends BotPrimitive {
         for (String line : lines) {
             sendMsg(message, line);
         }
-    }
+    }//commandsWithSendMessage
 
     private void readNext(Message message) {
         var userData = botLogic.getUserData(message.getChatId().toString(), this);
-        var paragraph = userData.getLibraryUser().get(userData.getCurrentBook());
-        var pos = paragraph == null ? 0 : paragraph;
+        var pos = userData.getCurrentPosition();
         botLogic.getUserData(message.getChatId().toString(), this).setCurrentCommands(createReadCommand());
         sendMsg(message, botCommands.nextRead(userData, pos));
-        userData.addBook(userData.getCurrentBook(), pos++);
-    } //commandsWithSendMessage
+        userData.setCurrentPosition(pos + 1);
+    }
 
     private void returnBook(Message message) {
         var userData = botLogic.getUserData(message.getChatId().toString(), this);
         userData.getState().setCurrentState(State.state.Book);
         userData.setCurrentCommands(createCurrentBookCommands());
         sendMsg(message, "Вы вернулись в раздел книги");
+    }
+
+    private void note(Message message) {
+        var userData = botLogic.getUserData(message.getChatId().toString(), this);
+        userData.getState().setCurrentState(State.state.Note);
+        sendMsg(message, "Вы в режиме создания закладки. Ввод в формате: {Число} {закладка}. Главное оставьте пробел между ними");
+        addNote(message);
+    }
+
+    private void addNote(Message message) {
+        var userData = botLogic.getUserData(message.getChatId().toString(), this);
+        var text = botCommands.addNote(message, userData);
+        sendMsg(message, text);
+    }
+
+    private void getMarks(Message message) {
+        var userData = botLogic.getUserData(message.getChatId().toString(), this);
+        sendMsg(message, botCommands.getMarks(userData));
+    }
+
+    private void search(Message message) {
+        var search_answer = botLogic.search(message.getText());
+        for (var answer:
+                search_answer) {
+            sendMsg(message, answer);
+        }
     }
 }
