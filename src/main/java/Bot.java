@@ -56,6 +56,9 @@ public class Bot extends BotPrimitive {
         } else if(userData.getFlNote()) {
             addNote(message);
             userData.setFlNote(false);
+        } else if (userData.getFlSearch()){
+            search(message);
+            userData.setFlSearch(false);
         } else if (currentCommands.containsKey(message.getText())) {
             MyFunc func = currentCommands.get(message.getText());
             func.func(message);
@@ -124,7 +127,6 @@ public class Bot extends BotPrimitive {
             sendMsg(message, "Введите номер книги");
             chooseBook(message);
         }));
-        commands.put("поиск", (this::search));
         return commands;
     }
 
@@ -148,6 +150,7 @@ public class Bot extends BotPrimitive {
         }));
         commands.put("ᐅ", (this::readNext));
         commands.put("викторина", (this::runQuiz));
+        commands.put("поиск", (this::search));
         return commands;
     }
 
@@ -286,10 +289,16 @@ public class Bot extends BotPrimitive {
         sendMsg(message, botCommands.getMarks(userData));
     }
 
-    private void search(Message message) {
-        var search_answer = botLogic.search(message.getText());
-        for (var answer:
-                search_answer) {
+    private void search(Message message){
+        var userData = botLogic.getUserData(message.getChatId().toString(), this);
+        userData.getState().setCurrentState(State.state.Search);
+        sendMsg(message, "Вы в режиме поиска. Введите фразу");
+        searchText(message, userData);
+    }
+
+    private void searchText(Message message, UserData userData) {
+        var search_answer = botCommands.search(message.getText(), userData);
+        for (var answer:search_answer) {
             sendMsg(message, answer);
         }
     }
