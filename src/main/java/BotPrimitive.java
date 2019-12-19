@@ -46,7 +46,7 @@ public class BotPrimitive extends TelegramLongPollingBot {
         return sendMessage;
     }
 
-    public synchronized void sendMsg(String chatId, String output) throws TelegramApiException {
+    private synchronized void sendMsg(String chatId, String output) throws TelegramApiException {
         SendMessage sendMess = new SendMessage();
         sendMess.enableMarkdown(true);
         sendMess.setChatId(chatId);
