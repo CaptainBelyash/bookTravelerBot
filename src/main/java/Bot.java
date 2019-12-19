@@ -156,21 +156,21 @@ public class Bot extends BotPrimitive {
 
     private LinkedHashMap<String, MyFunc> createQuizCommands() {
         LinkedHashMap<String, MyFunc> commands = new LinkedHashMap<>();
-        commands.put("?", (this::help));
-        commands.put("книга", (this::returnBook));
         commands.put("1", (message -> checkAnswer(message, "1")));
         commands.put("2", (message -> checkAnswer(message, "2")));
         commands.put("3", (message -> checkAnswer(message, "3")));
+        commands.put("?", (this::help));
+        commands.put("книга", (this::returnBook));
         return commands;
     }
 
     private LinkedHashMap<String, MyFunc> createReadCommand() {
         LinkedHashMap<String, MyFunc> commands = new LinkedHashMap<>();
-        commands.put("?", (this::help));
-        commands.put("книга", (this::returnBook));
         commands.put("ᐅ", (this::readNext));
         commands.put("добавить закладку", (this::note));
         commands.put("посмотреть текущие закладки", (this::getMarks));
+        commands.put("?", (this::help));
+        commands.put("книга", (this::returnBook));
         return commands;
     }
     ///////////////
