@@ -4,7 +4,7 @@ class State {
         Library,
         Book,
         Read,
-        Quiz
+        Note, Quiz
     }
 
     private state currentState = state.Main;
