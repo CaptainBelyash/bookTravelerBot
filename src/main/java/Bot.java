@@ -35,7 +35,6 @@ public class Bot extends BotPrimitive {
                 processingMessage(message);
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("Ошибка в processingMessage");
             }
         }
     }
@@ -57,6 +56,7 @@ public class Bot extends BotPrimitive {
             addNote(message);
             userData.setFlNote(false);
         } else if (userData.getFlSearch()){
+            userData.getCurrentCommands().put("дальше", this::nextResultSearch);
             search(message);
             userData.setFlSearch(false);
         } else if (currentCommands.containsKey(message.getText())) {
@@ -292,14 +292,29 @@ public class Bot extends BotPrimitive {
     private void search(Message message){
         var userData = botLogic.getUserData(message.getChatId().toString(), this);
         userData.getState().setCurrentState(State.state.Search);
-        sendMsg(message, "Вы в режиме поиска. Введите фразу");
-        searchText(message, userData);
+        if (!userData.getFlSearch()){
+            sendMsg(message, "Вы в режиме поиска. Введите фразу");
+            userData.setFlSearch(true);
+        }
+        else {
+            userData.setSearchResult(botCommands.search(message.getText(), userData));
+            try{
+                sendMsg(message, userData.getSearchResult().get(0));
+                System.out.println(userData.getSearchResult());
+            }
+            catch (Exception e){
+                sendMsg(message, "Не найдено");
+                return;
+            }
+            userData.resetStartCountResult();
+        }
     }
 
-    private void searchText(Message message, UserData userData) {
-        var search_answer = botCommands.search(message.getText(), userData);
-        for (var answer:search_answer) {
-            sendMsg(message, answer);
-        }
+    private void nextResultSearch(Message message){
+        var userData = botLogic.getUserData(message.getChatId().toString(), this);
+        sendMsg(message, userData.getSearchResult().get(userData.getCountResult()));
+        userData.addCountResult();
+        if (userData.getCountResult() == userData.getSearchResult().size())
+            sendMsg(message, "больше совпадений нет");
     }
 }
