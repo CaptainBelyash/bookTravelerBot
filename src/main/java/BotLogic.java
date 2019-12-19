@@ -2,6 +2,7 @@ import org.o7planning.googledrive.quickstart.GoogleDrive;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 class BotLogic {
@@ -28,7 +29,10 @@ class BotLogic {
     void setCurrentParagraphsList(UserData userData) {
         try {
             var bookName = reader.getCurrentBookName(userData.getCurrentBook());
-            userData.setCurrentParagraphsList(googleDrive.getParagraphsList(googleDrive.getTextByGoogleDisk(googleDrive.getDrive(), bookName)));
+            System.out.println(bookName);
+            var out = googleDrive.getParagraphsList(googleDrive.getTextByGoogleDisk(googleDrive.getDrive(), bookName));
+            userData.setCurrentParagraphsList(out);
+            System.out.println(out);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,5 +57,26 @@ class BotLogic {
         //var arAnswers = googleDrive.getTextByGoogleDisk(googleDrive.getDrive(), name + ".Answers").split("\n");
         var arQuestions = googleDrive.getTextByGoogleDisk(googleDrive.getDrive(), name + ".Questions").split(";");
         userData.setCurrentQuiz(new Quiz(arQuestions, answer));
+    }
+
+    public ArrayList<String> search(String target){
+        var countBookInLibrary = this.getReader().getCountLinesInLibrary();
+        var paragraphs = new ArrayList<String>();
+        for(var i = 1; i <= countBookInLibrary; i++){
+            var bookName = this.getReader().getCurrentBookName(i);
+            try {
+                paragraphs.addAll(googleDrive.getParagraphsList(googleDrive.getTextByGoogleDisk(googleDrive.getDrive(), bookName)));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        var answer = new ArrayList<String>();
+        for (var paragraph:
+                paragraphs) {
+            if (paragraph.contains(target))
+                answer.add(paragraph);
+        }
+        return answer;
     }
 }
