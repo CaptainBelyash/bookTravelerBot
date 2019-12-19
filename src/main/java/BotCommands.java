@@ -2,7 +2,9 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 class BotCommands {
@@ -68,7 +70,7 @@ class BotCommands {
     }
 
     String chooseBook(Message message, BotLogic botLogic, UserData userData) {
-        var countBookInLibrary = botLogic.getReader().getCountLinesInFile();
+        var countBookInLibrary = botLogic.getReader().getCountLinesInLibrary();
         if (userData.getFlChoose()) {
             userData.getState().setCurrentState(State.state.Book);
             var number = 0;
@@ -82,7 +84,7 @@ class BotCommands {
                 userData.getState().setCurrentState(State.state.Library);
                 return "Неправильно выбран номер книги";
             } else {
-                userData.setCurrentBook(Integer.parseInt(message.getText()));
+                userData.setCurrentBook(number);
                 botLogic.setCurrentParagraphsList(userData);
                 return "Приятного чтения";
             }
@@ -91,8 +93,56 @@ class BotCommands {
         return "";
     }
 
+    String addNote(Message message, UserData userData) {
+        var countParagraph = userData.getCurrentParagraphsList().size();
+        if (userData.getFlNote()) {
+            var number = 0;
+            var note = "";
+            var text = message.getText();
+            userData.setFlNote(false);
+            try {
+                var prob = text.indexOf(" ");
+                number = Integer.parseInt(text.substring(0, prob));
+                note = text.substring(prob + 1);
+            } catch (NumberFormatException e) {
+                userData.getState().setCurrentState(State.state.Note);
+                return "Неправильная запись? ";
+            }
+            if (number < 0 || countParagraph < number) {
+                userData.getState().setCurrentState(State.state.Note);
+                return "Неправильная запись";
+            } else {
+                userData.addBookmark(note, number);
+                //userData.setCurrentBookmark(new Bookmark(number, note));
+                return "Закладка успешно создана";
+            }
+        }
+        userData.setFlNote(true);
+        return "";
+    }
+
     String nextRead(UserData userData, int pos){
         userData.getState().setCurrentState(State.state.Read);
         return userData.getCurrentParagraphsList().get(pos);
+    }
+
+    String getMarks(UserData userData){
+        HashMap<Integer, ArrayList<String>> bookMark;
+        var countP = userData.getCurrentParagraphsList().size();
+        StringBuilder text = new StringBuilder();
+        if (userData.getBookmarks().containsKey(userData.getCurrentBook())){
+            bookMark = userData.getBookmarks().get(userData.getCurrentBook());
+            for (int par = 0; par < countP; par++){
+                if (bookMark.containsKey(par)){
+                    text.append("(" + par + ") : ");
+                    for (String note:bookMark.get(par)) {
+                        text.append(note + "\n");
+                    }
+                }
+            }
+            return text.toString();
+        }
+        else
+            return "Вы еще не создали ни одной закладки";
     }
 }
