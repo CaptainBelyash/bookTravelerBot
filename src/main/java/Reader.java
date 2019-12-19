@@ -28,7 +28,7 @@ class Reader {
         return lines.length;
     }
 
-    int getCountLinesInFile() {
+    int getCountLinesInLibrary() {
         return countLines(readFile("src\\main\\resources\\library.txt"));
     }
 
