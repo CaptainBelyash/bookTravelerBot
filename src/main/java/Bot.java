@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class Bot extends BotPrimitive {
@@ -109,31 +109,33 @@ public class Bot extends BotPrimitive {
     }
 
     ////////////////
-    private HashMap<String, MyFunc> createPrimitiveCommands() {
-        HashMap<String, MyFunc> commands = new HashMap<>();
+    private LinkedHashMap<String, MyFunc> createPrimitiveCommands() {
+        LinkedHashMap<String, MyFunc> commands = new LinkedHashMap<>();
+        commands.put("библиотека", (this::library));
         commands.put("?", (this::help));
+        commands.put("дата", (this::printDate));
         commands.put("эхо", (this::echo));
         commands.put("авторы", (this::authors));
-        commands.put("дата", (this::printDate));
-        commands.put("библиотека", (this::library));
         return commands;
     }
 
-    private HashMap<String, MyFunc> createLibraryCommands() {
-        HashMap<String, MyFunc> commands = new HashMap<>();
-        commands.put("?", (this::help));
-        commands.put("главное меню", (this::exitToMain));
+    private LinkedHashMap<String, MyFunc> createLibraryCommands() {
+        LinkedHashMap<String, MyFunc> commands = new LinkedHashMap<>();
         commands.put("выбрать книгу", (message -> {
             sendMsg(message, "Введите номер книги");
             chooseBook(message);
         }));
+        commands.put("главное меню", (this::exitToMain));
+        commands.put("?", (this::help));
         return commands;
     }
 
-    private HashMap<String, MyFunc> createCurrentBookCommands() {
-        HashMap<String, MyFunc> commands = new HashMap<>();
-        commands.put("?", (this::help));
+    private LinkedHashMap<String, MyFunc> createCurrentBookCommands() {
+        LinkedHashMap<String, MyFunc> commands = new LinkedHashMap<>();
+        commands.put("ᐅ", (this::readNext));
+        commands.put("викторина", (this::runQuiz));
         commands.put("библиотека", (this::library));
+        commands.put("?", (this::help));
         commands.put("автор", (message -> {
             try {
                 getInfoAbAuthor(message);
@@ -148,14 +150,12 @@ public class Bot extends BotPrimitive {
                 e.printStackTrace();
             }
         }));
-        commands.put("ᐅ", (this::readNext));
-        commands.put("викторина", (this::runQuiz));
         commands.put("поиск", (this::search));
         return commands;
     }
 
-    private HashMap<String, MyFunc> createQuizCommands() {
-        HashMap<String, MyFunc> commands = new HashMap<>();
+    private LinkedHashMap<String, MyFunc> createQuizCommands() {
+        LinkedHashMap<String, MyFunc> commands = new LinkedHashMap<>();
         commands.put("?", (this::help));
         commands.put("книга", (this::returnBook));
         commands.put("1", (message -> checkAnswer(message, "1")));
@@ -164,8 +164,8 @@ public class Bot extends BotPrimitive {
         return commands;
     }
 
-    private HashMap<String, MyFunc> createReadCommand() {
-        HashMap<String, MyFunc> commands = new HashMap<>();
+    private LinkedHashMap<String, MyFunc> createReadCommand() {
+        LinkedHashMap<String, MyFunc> commands = new LinkedHashMap<>();
         commands.put("?", (this::help));
         commands.put("книга", (this::returnBook));
         commands.put("ᐅ", (this::readNext));
@@ -314,7 +314,9 @@ public class Bot extends BotPrimitive {
         var userData = botLogic.getUserData(message.getChatId().toString(), this);
         sendMsg(message, userData.getSearchResult().get(userData.getCountResult()));
         userData.addCountResult();
-        if (userData.getCountResult() == userData.getSearchResult().size())
+        if (userData.getCountResult() == userData.getSearchResult().size()){
+            userData.getCurrentCommands().remove("дальше");
             sendMsg(message, "больше совпадений нет");
+        }
     }
 }
